@@ -1,0 +1,1 @@
+Static image assets for the Daegu tutoring site.
