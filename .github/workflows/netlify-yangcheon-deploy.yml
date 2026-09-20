@@ -1,0 +1,19 @@
+name: netlify-anonymous-deploy
+on:
+  push:
+    branches: [netlify-yangcheon-deploy]
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - run: python netlify-yangcheon/generate.py
+      - run: npm install -g netlify-cli@latest
+      - name: Deploy anonymously to Netlify
+        run: netlify deploy --allow-anonymous --dir site --no-build --json | tee netlify-deploy.json
