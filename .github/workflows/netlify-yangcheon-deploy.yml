@@ -1,7 +1,6 @@
 name: netlify-anonymous-deploy
 on:
-  push:
-    branches: [netlify-yangcheon-deploy]
+  workflow_dispatch:
 jobs:
   deploy:
     runs-on: ubuntu-latest
