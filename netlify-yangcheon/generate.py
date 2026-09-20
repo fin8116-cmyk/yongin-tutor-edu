@@ -32,7 +32,7 @@ def slug(s):
     return re.sub(r'[^0-9A-Za-z가-힣-]+','-',s.replace('학교','-school').replace('고등','high').replace('중','middle')).strip('-')
 
 def layout(title,desc,body):
-    return f'''<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>{escape(title)}</title><meta name="description" content="{escape(desc)}"><meta name="robots" content="index,follow,max-image-preview:large"><meta property="og:type" content="website"><meta property="og:title" content="{escape(title)}"><meta property="og:description" content="{escape(desc)}"><link rel="stylesheet" href="/styles.css"><script defer src="/app.js"></script><script type="application/ld+json">{{"@context":"https://schema.org","@type":"EducationalOrganization","name":"양천구 과외","areaServed":"서울특별시 양천구","description":"양천구 영어 수학 1:1 과외 안내"}}</script></head><body><header><div class="wrap nav"><a class="brand" href="/">양천구 과외</a><small>영어 · 수학 · 방문/온라인 1:1</small></div></header>{body}<div class="floating"><button class="float call" data-call>전화 상담</button><button class="float apply" data-apply>온라인 신청</button></div><footer><div class="wrap">서울 양천구 영어·수학 과외 정보 사이트 · 방문 및 온라인 수업 상담</div></footer></body></html>'''
+    return f'''<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>{escape(title)}</title><meta name="description" content="{escape(desc)}"><meta name="robots" content="index,follow,max-image-preview:large"><meta property="og:type" content="website"><meta property="og:title" content="{escape(title)}"><meta property="og:description" content="{escape(desc)}"><link rel="alternate" type="application/rss+xml" title="양천구 과외 RSS" href="/rss.xml"><link rel="stylesheet" href="/styles.css"><script defer src="/app.js"></script><script type="application/ld+json">{{"@context":"https://schema.org","@type":"EducationalOrganization","name":"양천구 과외","areaServed":"서울특별시 양천구","description":"양천구 영어 수학 1:1 과외 안내"}}</script></head><body><header><div class="wrap nav"><a class="brand" href="/">양천구 과외</a><small>영어 · 수학 · 방문/온라인 1:1</small></div></header>{body}<div class="floating"><button class="float call" data-call>전화 상담</button><button class="float apply" data-apply>온라인 신청</button></div><footer><div class="wrap">서울 양천구 영어·수학 과외 정보 사이트 · 방문 및 온라인 수업 상담</div></footer></body></html>'''
 
 def detail_page(keyword,intro):
     title=f'{keyword} | 양천구 1:1 맞춤 과외'
@@ -67,8 +67,8 @@ apply='''<main><div class="wrap content"><section><div class="eyebrow">CONSULTAT
 (p/'index.html').write_text(layout('온라인 상담 신청 | 양천구 과외','양천구 영어 수학 과외 온라인 상담 신청 안내.',apply),encoding='utf-8'); urls.append('/apply/')
 
 (root/'netlify.toml').write_text('[build]\n  publish = "."\n',encoding='utf-8')
-(root/'robots.txt').write_text('User-agent: *\nAllow: /\n',encoding='utf-8')
-base='https://yangcheon-tutor.netlify.app'
+(root/'robots.txt').write_text(f'User-agent: *\nAllow: /\nSitemap: {base}/sitemap.xml\n',encoding='utf-8')
+base='https://dazzling-cranachan-01b3f8.netlify.app'
 (root/'sitemap.xml').write_text('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'+''.join(f'<url><loc>{base}{u}</loc><changefreq>weekly</changefreq></url>\n' for u in urls)+'</urlset>',encoding='utf-8')
 (root/'rss.xml').write_text(f'''<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"><channel><title>양천구 과외</title><link>{base}</link><description>양천구 영어 수학 과외 정보</description><item><title>양천구 과외 지역별 안내</title><link>{base}</link><pubDate>{datetime.now(timezone.utc).strftime('%a, %d %b %Y %H:%M:%S GMT')}</pubDate></item></channel></rss>''',encoding='utf-8')
 print(f'generated {len(urls)} pages')
