@@ -16,4 +16,10 @@ jobs:
       - run: python netlify-yangcheon/generate.py
       - run: npm install -g netlify-cli@latest
       - name: Deploy anonymously to Netlify
-        run: netlify deploy --allow-anonymous --dir site --no-build --json | tee netlify-deploy.json
+        run: netlify deploy --allow-anonymous --dir site --no-build --json > netlify-deploy.json
+      - name: Upload Netlify deployment metadata
+        uses: actions/upload-artifact@v4
+        with:
+          name: netlify-deploy-metadata
+          path: netlify-deploy.json
+          retention-days: 1
